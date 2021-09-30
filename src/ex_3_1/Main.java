@@ -3,6 +3,7 @@ package ex_3_1;
 import java.util.ArrayList;
 
 public class Main {
+    // test
     public static void main(String[] args) throws PhoneNumberAlreadyExists, RecordNotValid {
 
         Record firstRecord = new Record("89130912500", "Екатерина Панюкова");
