@@ -11,7 +11,7 @@ class PhoneNumberAlreadyExists extends MyExceptionClass {
 
     public PhoneNumberAlreadyExists (String message) {
         super(message);
-
+        String a = "";
     }
 }
 
