@@ -1,7 +1,7 @@
 package ex_3_1;
 
 public class Record {
-
+    // test
     protected long id ;
     protected String phoneNumber = null;
     protected String name = null;
