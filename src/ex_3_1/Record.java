@@ -1,8 +1,5 @@
 package ex_3_1;
 
-
-import java.util.Random;
-
 public class Record {
 
     protected long id ;
