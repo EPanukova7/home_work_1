@@ -42,17 +42,14 @@ public class PhoneBook {
     public void deleteRecord(long idFind) {
         // удаляет запись из справочника по идентификатору,
         // если нет, то RecordNotFound
-        int counter = 0;
         for (Record record : phoneBook) {
             if (record.id == idFind) {
                 phoneBook.remove(record);
-                counter = 1;
+                return;
             }
         }
-        if (counter == 0) {
-            throw new RecordNotFound("Запись не найдена!");
-        }
-        counter = 0;
+
+        throw new RecordNotFound("Запись не найдена!");
     }
 }
 
