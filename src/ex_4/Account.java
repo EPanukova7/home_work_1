@@ -21,7 +21,7 @@ public class Account {
         this.birthdayDate = birth;
         this.email = email;
         this.password = password;
-        this.blocked = false;
+        this.blocked = true;
     }
 
     public Account() {
@@ -100,7 +100,11 @@ public class Account {
         data.add(getBirthdayDate());
         data.add(getEmail());
         data.add(getPassword());
-        data.add("0");
+        if (getAccountStatus()) {
+            data.add("0");}
+        else {
+            data.add("-1");
+        }
 
         return data;
     }

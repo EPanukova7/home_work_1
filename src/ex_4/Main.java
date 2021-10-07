@@ -1,11 +1,9 @@
 package ex_4;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Objects;
 
 public class Main {
+
 
     public static void main(String[] args) throws IOException, AccountBlockedException, WrongCredentialsException {
 
@@ -18,8 +16,38 @@ public class Main {
         listOfUsers.register(user1);
         listOfUsers.register(user2);
 
-        //System.out.println(listOfUsers.getAllAccounts());
-        listOfUsers.login("nsu@mail.ru", "123456");
+        try {
+            listOfUsers.login("nsu@mail.ru", "120456");
+        } catch (WrongCredentialsException ex) {
+            System.out.println(ex.getMessage());
+        }
+        try {
+            listOfUsers.login("nsu@mail.ru", "120456");
+        } catch (WrongCredentialsException ex) {
+            System.out.println(ex.getMessage());
+        }
+        try {
+            listOfUsers.login("nsu@mail.ru", "120456");
+        } catch (WrongCredentialsException ex) {
+            System.out.println(ex.getMessage());
+        }
+        try {
+            listOfUsers.login("nsu@mail.ru", "120456");
+        } catch (WrongCredentialsException ex) {
+            System.out.println(ex.getMessage());
+        }
+        try {
+            listOfUsers.login("nsu@mail.ru", "120456");
+        } catch (WrongCredentialsException | AccountBlockedException ex) {
+            System.out.println(ex.getMessage());
+        }
+
+        listOfUsers.removeAccount("ertyui", "fghj");
+        //try {
+        //    listOfUsers.login("nsu@mail.ru", "120456");
+        //} catch (WrongCredentialsException | AccountBlockedException ex) {
+        //    System.out.println(ex.getMessage());
+        //}
 
         listOfUsers.removeAccount("nsu@mail.ru", "123456");
 

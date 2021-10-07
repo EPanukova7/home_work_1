@@ -3,7 +3,7 @@ package ex_4;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class FileService {
@@ -30,7 +30,6 @@ public class FileService {
         StringBuilder dataOfUsers = new StringBuilder();
         String csvFilename = "C:\\Users\\Zver\\IdeaProjects\\home_work_1\\src\\ex_4\\DATA.csv";
         try {
-
             BufferedWriter fileOut = new BufferedWriter(new FileWriter(csvFilename));
 
             for (Account account: accounts.values()) {
@@ -79,7 +78,7 @@ public class FileService {
                     else if (index == 5)
                         account.setPassword(user);
                     else if (index == 6) {
-                        if (user == "-1") {
+                        if (Objects.equals(user, "-1")) {
                             account.setBlocked(false);
                         } else {
                             account.setBlocked(true);
@@ -96,8 +95,6 @@ public class FileService {
         } catch (IOException ex) {
             ex.printStackTrace(System.out);
         }
-
         return userMap;
     }
-
 }
