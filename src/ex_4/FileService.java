@@ -10,6 +10,7 @@ public class FileService {
     // class-singleton
     private static FileService instance;
 
+
     public static synchronized FileService getInstance() {
         if (instance == null) {
             instance = new FileService();
@@ -17,13 +18,16 @@ public class FileService {
         return instance;
     }
 
-    FileService() {}
+    private FileService() {}
 
     public void cleanFile() throws IOException {
         String csvFilename = "C:\\Users\\Zver\\IdeaProjects\\home_work_1\\src\\ex_4\\DATA.csv";
-        BufferedWriter fileZero = new BufferedWriter(new FileWriter(csvFilename));
-        fileZero.write("");
-        fileZero.close();
+
+        try (BufferedWriter fileZero = new BufferedWriter(new FileWriter(csvFilename))) {
+            fileZero.write("");
+        } catch (IOException ex) {
+            ex.printStackTrace(System.out);
+        }
     }
 
     public void writeDataOfUsers(HashMap<String, Account> accounts) {

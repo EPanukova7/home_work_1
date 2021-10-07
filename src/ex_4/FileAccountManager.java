@@ -6,8 +6,8 @@ import java.util.*;
 public class FileAccountManager extends Throwable implements AccountManager {
 
     private Map<String, Account> allAccounts;
-    private final FileService fileService = new FileService();
-    private final FailedLoginCounter failedLoginCounter = new FailedLoginCounter((HashMap<String, Account>) allAccounts);
+    private final FileService fileService = FileService.getInstance();
+    private final FailedLoginCounter failedLoginCounter = FailedLoginCounter.getInstance((HashMap<String, Account>) allAccounts);
 
     public FileAccountManager() {
         allAccounts = new HashMap<>();
@@ -42,7 +42,7 @@ public class FileAccountManager extends Throwable implements AccountManager {
                 Account user = newAccounts.get(email);
                 user.setBlocked(failedLoginCounter.checkBlocked(user));
 
-                if (Objects.equals(user.getPassword(), password) & user.getAccountStatus()) {
+                if (Objects.equals(user.getPassword(), password) && user.getAccountStatus()) {
                     if (!newAccounts.isEmpty()) {
                         fileService.writeDataOfUsers(newAccounts);
                     } else {
@@ -50,13 +50,13 @@ public class FileAccountManager extends Throwable implements AccountManager {
                     user.getInfoAll();
                     return user;}
 
-                else if (Objects.equals(user.getPassword(), password) & !user.getAccountStatus()) {
+                else if (Objects.equals(user.getPassword(), password) && !user.getAccountStatus()) {
                     if (!newAccounts.isEmpty()) {
                         fileService.writeDataOfUsers(newAccounts);
                     } else {
                         fileService.cleanFile();}
                     throw new AccountBlockedException("Account "+user.getEmail()+" is blocked!");
-                } else if (!Objects.equals(user.getPassword(), password) & user.getAccountStatus()) {
+                } else if (!Objects.equals(user.getPassword(), password) && user.getAccountStatus()) {
 
                     if (!newAccounts.isEmpty()) {
                         fileService.writeDataOfUsers(newAccounts);
@@ -65,7 +65,7 @@ public class FileAccountManager extends Throwable implements AccountManager {
                     }
                     throw new WrongCredentialsException("Wrong password! (0)");
 
-                } else if (!Objects.equals(user.getPassword(), password) & !user.getAccountStatus()) {
+                } else if (!Objects.equals(user.getPassword(), password) && !user.getAccountStatus()) {
                     if (!newAccounts.isEmpty()) {
                         fileService.writeDataOfUsers(newAccounts);
                     } else {
@@ -87,25 +87,29 @@ public class FileAccountManager extends Throwable implements AccountManager {
         ArrayList<Account> arrayListAccounts = fileService.readDataOfUsers();
         HashMap<String, Account> newAccounts = new HashMap<>();
 
-        for (Account account: arrayListAccounts) {newAccounts.put(account.getEmail(), account);}
-        try {
-            Account user = newAccounts.get(email);
+        if (arrayListAccounts == null) {
+            System.out.println("List is empty!");
+            return;}
 
-            if ((Objects.equals(user.getEmail(), email) & Objects.equals(user.getPassword(), password))
-                    & newAccounts.containsKey(email)) {
-                newAccounts.remove(email, user);
-                System.out.println("Account " + user.getEmail() + " is invalid!");
-
-                if (!newAccounts.isEmpty()) {
-                    fileService.writeDataOfUsers(newAccounts);
-                } else {
-                    fileService.cleanFile();
-                }
-            } else {
-                throw new WrongCredentialsException("Wrong login or password! Try again!");
-            }
-        } catch (NullPointerException ex) {
-            System.out.println("List is null!");
+        for (Account account: arrayListAccounts) {
+            newAccounts.put(account.getEmail(), account);
         }
+
+        Account user = newAccounts.get(email);
+
+        if ((Objects.equals(user.getEmail(), email) & Objects.equals(user.getPassword(), password))
+                & newAccounts.containsKey(email)) {
+            newAccounts.remove(email, user);
+            System.out.println("Account " + user.getEmail() + " is invalid!");
+
+            if (!newAccounts.isEmpty()) {
+                fileService.writeDataOfUsers(newAccounts);
+            } else {
+                fileService.cleanFile();
+            }
+        } else {
+            throw new WrongCredentialsException("Wrong login or password! Try again!");
+        }
+
     }
 }

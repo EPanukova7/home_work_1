@@ -10,7 +10,7 @@ public class FailedLoginCounter {
     private Integer index;
     private Integer counter;
 
-    public FailedLoginCounter(HashMap<String, Account> allAccounts) {
+    private FailedLoginCounter(HashMap<String, Account> allAccounts) {
         this.index = 0;
         this.counter = 1;
 
@@ -22,11 +22,12 @@ public class FailedLoginCounter {
         }
     }
 
-    public FailedLoginCounter() {}
+    private FailedLoginCounter() {}
 
-    public static synchronized FailedLoginCounter getInstance() {
+    public static synchronized FailedLoginCounter getInstance(HashMap<String, Account> allAccounts) {
         if (instance == null) {
-            instance = new FailedLoginCounter();
+            instance = new FailedLoginCounter(allAccounts);
+
         }
         return instance;
     }
